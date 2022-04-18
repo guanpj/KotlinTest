@@ -1,4 +1,5 @@
 import kotlinx.coroutines.*
+import java.util.concurrent.Executors
 import kotlin.coroutines.suspendCoroutine
 
 /** * 打印Job的状态信息 */
@@ -16,6 +17,10 @@ $any
 Thread:${Thread.currentThread().name}
 ================================""".trimIndent())
 }
+
+val mySingleDispatcher = Executors.newSingleThreadExecutor {
+    Thread(it, "myDispatcher").apply { isDaemon = true }
+}.asCoroutineDispatcher()
 
 fun main() = runBlocking {
     println("run")

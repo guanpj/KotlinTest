@@ -1,4 +1,6 @@
 import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.selects.select
@@ -41,7 +43,7 @@ import kotlinx.coroutines.selects.select
 
 
 // 代码段5
-fun main() = runBlocking {
+/*fun main() = runBlocking {
     suspend fun getCacheInfo(productId: String): Product? {
         delay(100L)
         return Product(productId, 9.9)
@@ -88,18 +90,54 @@ fun main() = runBlocking {
     }
 }
 
-/*
-输出结果：
-xxxId==9.9
-Time cost: 120
-xxxId==9.8
-Time cost: 220
-*/
-
 data class Product(
     val productId: String,
     val price: Double,
     // 是不是缓存信息
     val isCache: Boolean = false
-)
+)*/
+
+
+// 代码段9
+fun main() = runBlocking {
+    val startTime = System.currentTimeMillis()
+    val channel1 = produce {
+        send("1")
+        delay(20000L)
+        /*send("2")
+        delay(200L)
+        send("3")
+        delay(150L)*/
+    }
+
+    val channel2 = produce {
+        delay(100L)
+        send("a")
+        delay(200L)
+        send("b")
+        delay(200L)
+        send("c")
+    }
+
+    suspend fun selectChannel(channel1: ReceiveChannel<String>, channel2: ReceiveChannel<String>): String = select {
+        // 1， 选择channel1
+        channel1.onReceiveCatching {
+            it.getOrNull() ?: "channel is closed"
+        }
+        // 2， 选择channel1
+        channel2.onReceiveCatching {
+            it.getOrNull() ?: "channel is closed"
+        }
+    }
+
+    repeat(5) {// 3， 选择6次结果
+        val res = selectChannel(channel1, channel2)
+        println(res)
+    }
+
+    channel1.cancel()
+    channel2.cancel()
+
+    println("Time cost: ${System.currentTimeMillis() - startTime}")
+}
 
