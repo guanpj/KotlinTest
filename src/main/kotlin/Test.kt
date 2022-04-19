@@ -2,6 +2,14 @@ import kotlinx.coroutines.*
 import java.util.concurrent.Executors
 import kotlin.coroutines.suspendCoroutine
 
+object SuspendFromJavaExample {
+    // 在Java当中如何调用这个方法？
+    suspend fun getUserInfo(id: Long):String {
+        delay(1000L)
+        return "Kotlin"
+    }
+}
+
 /** * 打印Job的状态信息 */
 fun Job.log() {
     logX(""" 
