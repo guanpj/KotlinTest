@@ -22,6 +22,9 @@ val mySingleDispatcher = Executors.newSingleThreadExecutor {
     Thread(it, "myDispatcher").apply { isDaemon = true }
 }.asCoroutineDispatcher()
 
+val myExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    println("Catch exception: $throwable")
+}
 fun main() = runBlocking {
     println("run")
     val launch = GlobalScope.launch {
