@@ -1,6 +1,8 @@
 package coroutine
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.*
 
 val susBlock = suspend {
@@ -27,15 +29,7 @@ fun testStartCoroutine() {
     }
     susBlock.startCoroutine(continuation)
 
-    /*val coroutine = ::susFun.createCoroutine(1, object : Continuation<String> {
-        override val context: CoroutineContext
-            get() = EmptyCoroutineContext
-
-        override fun resumeWith(result: Result<String>) {
-            println("Result: ${result.getOrNull()}")
-        }
-    })
-    coroutine.resume(Unit)*/
+    ::susFun.startCoroutine(1, continuation)
 }
 
 fun main() {
