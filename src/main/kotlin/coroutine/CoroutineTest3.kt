@@ -3,7 +3,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-suspend fun getUserInfo(): String {
+suspend fun getUser(): String {
     logX("Before IO Context.")
     withContext (Dispatchers.IO) {
         logX("In IO Context.")
@@ -14,6 +14,6 @@ suspend fun getUserInfo(): String {
 }
 
 fun main() = runBlocking {
-    val userInfo = getUserInfo()
+    val userInfo = getUser()
     println(userInfo)
 }
