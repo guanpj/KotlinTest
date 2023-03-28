@@ -29,7 +29,8 @@ fun testStartCoroutine() {
     }
     susBlock.startCoroutine(continuation)
 
-    ::susFun.startCoroutine(1, continuation)
+    val coroutine = ::susFun.createCoroutine(1, continuation)
+    coroutine.resume(Unit)
 }
 
 fun main() {

@@ -1,6 +1,15 @@
 import kotlinx.coroutines.*
 import java.util.concurrent.Executors
+import kotlin.concurrent.thread
 import kotlin.coroutines.suspendCoroutine
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
+import kotlin.concurrent.thread
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.coroutines.CoroutineContext
 
 /** * 打印Job的状态信息 */
 fun Job.log() {
@@ -41,8 +50,4 @@ fun main() = runBlocking {
     coroutineScope {
 
     }
-}
-
-suspend fun load() = suspendCoroutine<String> {
-
 }
