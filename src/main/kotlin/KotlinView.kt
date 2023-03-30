@@ -1,5 +1,3 @@
-package com.me.guanpj.kotlin.test
-
 class KotlinView {
     var mOnClickListener: ((KotlinView) -> Unit)? = null
 

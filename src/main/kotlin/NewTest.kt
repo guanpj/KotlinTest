@@ -2,18 +2,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import java.io.File
 
 fun main() = runBlocking {
-    val isSuccess = copyFileTo(File("old.mp4"), File("new.mp4"))
-    println("---copy:$isSuccess")
+    println("---start")
+    val res = equalAB("a", "b")
+    println("---res:$res")
+    println("---end")
 }
 
-suspend fun copyFileTo(oldFile: File, newFile: File): Boolean {
+suspend fun equalAB(a: String, b: String): Boolean {
     val isCopySuccess = withContext(Dispatchers.IO) {
         try {
-            oldFile.copyTo(newFile)
-            true
+            delay(3000)
+            a == b
         } catch (e: Exception) {
             false
         }

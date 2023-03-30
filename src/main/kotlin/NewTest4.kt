@@ -1,11 +1,10 @@
 import kotlinx.coroutines.*
 
-fun main() {
+fun main() = runBlocking {
     println("---start")
-    GlobalScope.launch {
+    launch {
         val res = equalAB("a", "b")
         println("---res:$res")
     }
     println("---end")
-    Thread.sleep(6000)
 }

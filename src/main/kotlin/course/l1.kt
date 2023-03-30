@@ -18,6 +18,8 @@ fun getSequence() = sequence {
     yield(3)
     println("Add 4")
     yield(4)
+    println("Add 5")
+    yield(5)
 }
 
 fun printSequence(sequence: Sequence<Int>) {
@@ -28,6 +30,8 @@ fun printSequence(sequence: Sequence<Int>) {
     println("Get$j")
     val k = iterator.next()
     println("Get$k")
+    val l = iterator.next()
+    println("Get$l")
     val m = iterator.next()
     println("Get$m")
 }

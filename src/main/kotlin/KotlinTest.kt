@@ -1,5 +1,3 @@
-import com.me.guanpj.kotlin.test.KotlinView
-
 fun main() {
     val kotlinView = KotlinView()
     kotlinView.setOnClickListener {
