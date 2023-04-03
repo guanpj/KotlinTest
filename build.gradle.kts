@@ -18,6 +18,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation( "com.google.code.gson:gson:2.8.9")
 
     implementation("io.reactivex.rxjava3:rxjava:3.0.0")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
