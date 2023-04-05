@@ -1,19 +1,31 @@
 package kthttp
 
 import com.google.gson.Gson
-import kthttp.anno.Query
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.onFailure
+import kotlinx.coroutines.channels.onSuccess
+import kotlinx.coroutines.channels.trySendBlocking
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kthttp.anno.Get
 import kthttp.anno.Path
-import okhttp3.*
+import kthttp.anno.Query
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
-import java.io.IOException
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Proxy
-import java.lang.reflect.Type
 import java.util.concurrent.TimeUnit
+import kotlin.concurrent.thread
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
-interface ApiService3 {
+interface ApiService5 {
     @Get("article/list/{page_num}/json")
     fun listArticleSync(
         @Path("page_num") pageNum: Int,
@@ -29,42 +41,13 @@ interface ApiService3 {
     ): KtCall<PageResult>
 }
 
-interface CallBack<T : Any> {
-    fun onSuccess(data: T)
-    fun onFail(throwable: Throwable)
-}
-
-class KtCall<T : Any>(
-    private val call: Call,
-    private val gson: Gson,
-    private val type: Type
-) {
-    fun call(callBack: CallBack<T>): Call {
-        call.enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                callBack.onFail(e)
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                try {
-                    val t = gson.fromJson<T>(response.body?.string(), type)
-                    callBack.onSuccess(t)
-                } catch (e: Exception) {
-                    callBack.onFail(e)
-                }
-            }
-        })
-        return call
-    }
-}
-
-object KtHttpV3 {
+object KtHttpV5 {
     private var okHttpClient: OkHttpClient =
         OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor { message ->
             println(message)
         }.setLevel(HttpLoggingInterceptor.Level.BODY))
-            .readTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(5, TimeUnit.SECONDS)
+            .writeTimeout(5, TimeUnit.SECONDS)
             .build()
     private var gson: Gson = Gson()
     var baseUrl = "https://wanandroid.com/"
@@ -135,28 +118,78 @@ private fun getTypeArgument(method: Method) =
 private fun isKtCallReturn(method: Method) =
     com.google.gson.internal.`$Gson$Types`.getRawType(method.genericReturnType) == KtCall::class.java
 
-fun testSync() {
-    val api: ApiService3 = KtHttpV3.create(ApiService3::class.java)
-    val data: PageResult = api.listArticleSync(0, "guanpj", 3)
-    println(data)
-}
+fun <T : Any> KtCall<T>.asFlow(): Flow<T> = callbackFlow {
 
-fun testAsync() {
-    KtHttpV3.create(ApiService3::class.java).listArticleAsync(
-        0, "guanpj", 3
-    ).call(object : CallBack<PageResult> {
-        override fun onSuccess(data: PageResult) {
-            println(data)
+    /*val job = launch {
+        println("Coroutine start")
+        delay(3000L)
+        println("Coroutine end")
+    }
+
+    job.invokeOnCompletion {
+        println("Coroutine completed $it")
+    }*/
+
+    val call = call(object: CallBack<T> {
+        override fun onSuccess(data: T) {
+            trySendBlocking(data)
+                .onSuccess { close() }
+                .onFailure {
+                    //close(it)
+                    cancel(CancellationException("Send channel fail!", it))
+                }
         }
 
         override fun onFail(throwable: Throwable) {
-            println(throwable)
+            //close(throwable)
+            cancel(CancellationException("Request fail!", throwable))
         }
     })
+
+    awaitClose {
+        call.cancel()
+    }
 }
 
-fun main() {
-    //testSync()
-    testAsync()
+fun <T : Any> KtCall<T>.asFlowTest(value: T): Flow<T> = callbackFlow {
+    fun test(callback: CallBack<T>) {
+        thread(isDaemon = true) {
+            Thread.sleep(2000L)
+            callback.onSuccess(value)
+        }
+    }
+
+    println("Start")
+    test(object : CallBack<T> {
+        override fun onSuccess(data: T) {
+            trySendBlocking(data)
+                .onSuccess {
+                    println("Send success")
+//                    close()
+                }
+                .onFailure {
+                    close()
+                }
+        }
+
+        override fun onFail(throwable: Throwable) {
+            close(throwable)
+        }
+
+    })
+
+    awaitClose { }
 }
+
+suspend fun testAsFlow() =
+    KtHttpV5.create(ApiService5::class.java)
+        .listArticleAsync(0, "guanpj", 3)
+        .asFlow()
+        .catch { println("Catch:$it") }
+        .collect { println(it) }
+
+fun main() = runBlocking {
+    testAsFlow()
+}
+
 

@@ -39,25 +39,33 @@ suspend fun <T: Any> KtCall<T>.await() : T = suspendCancellableCoroutine {
 }
 
 fun main() = runBlocking {
-    val start = System.currentTimeMillis()
-    val deferred = async {
-        KtHttpV3.create(ApiService3::class.java).listArticleAsync(0, "guanpj", 3).await()
-    }
-    deferred.invokeOnCompletion {
-        println("invokeOnCompletion!")
-    }
-    delay(50L)
+    val ktCall = KtHttpV3.create(ApiService3::class.java)
+        .listArticleAsync(0, "guanpj", 3)
 
-    deferred.cancel()
-    println("Time cancel: ${System.currentTimeMillis() - start}")
-
-    try {
-        println(deferred.await())
-    } catch (e: Exception) {
-        println("Time exception: ${System.currentTimeMillis() - start}")
-        println("Catch exception:$e")
-    } finally {
-        println("Time total: ${System.currentTimeMillis() - start}")
-    }
+    val result = ktCall.await()
+    println(result)
 }
+
+//fun main() = runBlocking {
+//    val start = System.currentTimeMillis()
+//    val deferred = async {
+//        KtHttpV3.create(ApiService3::class.java).listArticleAsync(0, "guanpj", 3).await()
+//    }
+//    deferred.invokeOnCompletion {
+//        println("invokeOnCompletion!")
+//    }
+//    delay(50L)
+//
+//    deferred.cancel()
+//    println("Time cancel: ${System.currentTimeMillis() - start}")
+//
+//    try {
+//        println(deferred.await())
+//    } catch (e: Exception) {
+//        println("Time exception: ${System.currentTimeMillis() - start}")
+//        println("Catch exception:$e")
+//    } finally {
+//        println("Time total: ${System.currentTimeMillis() - start}")
+//    }
+//}
 
