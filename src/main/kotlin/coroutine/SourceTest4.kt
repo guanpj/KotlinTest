@@ -5,9 +5,9 @@ import kotlin.concurrent.thread
 import kotlin.coroutines.resume
 import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 
-suspend fun testNoSuspendCoroutine() = suspendCoroutineUninterceptedOrReturn<String> {
-    return@suspendCoroutineUninterceptedOrReturn "5"
-}
+//suspend fun testNoSuspendCoroutine() = suspendCoroutineUninterceptedOrReturn<String> {
+//    return@suspendCoroutineUninterceptedOrReturn "5"
+//}
 
 suspend fun testSuspendCoroutine() = suspendCoroutineUninterceptedOrReturn<String> {
     thread {
@@ -18,6 +18,6 @@ suspend fun testSuspendCoroutine() = suspendCoroutineUninterceptedOrReturn<Strin
 }
 
 fun main() = runBlocking {
-    println("testNoSuspendCoroutine: ${testNoSuspendCoroutine()}")
+    //println("testNoSuspendCoroutine: ${testNoSuspendCoroutine()}")
     println("testSuspendCoroutine: ${testSuspendCoroutine()}")
 }

@@ -5,7 +5,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-/*suspend fun <T: Any> KtCall<T>.await() : T = suspendCoroutine {
+suspend fun <T: Any> KtCall<T>.await1() : T = suspendCoroutine {
     call(object : CallBack<T> {
         override fun onSuccess(data: T) {
             it.resume(data)
@@ -17,7 +17,7 @@ import kotlin.coroutines.suspendCoroutine
             //it.resumeWith(Result.failure(throwable))
         }
     })
-}*/
+}
 
 suspend fun <T: Any> KtCall<T>.await() : T = suspendCancellableCoroutine {
     val call = call(object : CallBack<T> {
