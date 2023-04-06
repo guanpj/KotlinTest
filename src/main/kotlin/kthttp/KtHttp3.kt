@@ -1,6 +1,7 @@
 package kthttp
 
 import com.google.gson.Gson
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kthttp.anno.Query
 import kthttp.anno.Get
 import kthttp.anno.Path
@@ -12,6 +13,8 @@ import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Proxy
 import java.lang.reflect.Type
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 interface ApiService3 {
     @Get("article/list/{page_num}/json")
@@ -156,7 +159,7 @@ fun testAsync() {
 }
 
 fun main() {
-    //testSync()
-    testAsync()
+    testSync()
+    //testAsync()
 }
 
