@@ -1,6 +1,5 @@
 package course
 
-import kotlin.concurrent.thread
 import kotlin.coroutines.*
 
 fun main() {
