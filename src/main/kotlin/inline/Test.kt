@@ -2,16 +2,12 @@ package inline
 
 fun main() {
     println("Start")
-    sum(1, 2) {
-        println("Result is: $it")
-        //return // 编译报错，不允许返回
-    }
-    println("Done")
+    val sum = sum(1, 2)
+    println("Done: $sum")
 }
 
-inline fun sum(a: Int, b: Int, crossinline printResult: (result: Int) -> Unit): Int {
+private inline fun sum(a: Int, b: Int): Int {
     val r = a + b
-    printResult(r)
     return r
 }
 
