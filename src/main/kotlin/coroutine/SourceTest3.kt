@@ -1,11 +1,18 @@
 package coroutine
 
 import kotlinx.coroutines.delay
+import kotlin.concurrent.thread
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
-object SuspendFromJavaExample {
-    // 在Java当中如何调用这个方法？
-    suspend fun getUserInfo(id: Long):String {
-        delay(1000L)
-        return "Kotlin"
+suspend fun main() {
+    val result = testSuspendCoroutine("Kotlin")
+    println(result)
+}
+
+suspend fun testSuspendCoroutine(string: String): Int = suspendCoroutine {
+    thread {
+        Thread.sleep(2000)
+        it.resume(string.length)
     }
 }

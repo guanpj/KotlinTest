@@ -3,37 +3,19 @@ package coroutine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import kotlin.concurrent.thread
 import kotlin.coroutines.*
+import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
+import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 
-val susBlock = suspend {
-    println("hello")
-    delay(1000)
-    println("world")
-    "result"
+suspend fun main() {
+    println(testSuspendCoroutineUninterceptedOrReturn())
 }
 
-suspend fun susFun(p1: Int): String {
-    println("hello")
-    delay(1000)
-    return "world : $p1"
-}
-
-fun testStartCoroutine() {
-    val continuation = object : Continuation<String> {
-        override val context: CoroutineContext
-            get() = EmptyCoroutineContext
-
-        override fun resumeWith(result: Result<String>) {
-            println("Result: ${result.getOrNull()}")
-        }
+suspend fun testSuspendCoroutineUninterceptedOrReturn() = suspendCoroutineUninterceptedOrReturn<String> {
+    thread {
+        Thread.sleep(1000)
+        it.resume("hhh")
     }
-    susBlock.startCoroutine(continuation)
-
-    val coroutine = ::susFun.createCoroutine(1, continuation)
-    coroutine.resume(Unit)
-}
-
-fun main() {
-    testStartCoroutine()
-    Thread.sleep(2000)
+    return@suspendCoroutineUninterceptedOrReturn COROUTINE_SUSPENDED
 }

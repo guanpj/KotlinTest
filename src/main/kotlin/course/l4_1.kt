@@ -1,39 +1,36 @@
 package course
 
 import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
 import kotlin.coroutines.*
 
-fun main() = runBlocking {
-    block.createCoroutine(MyContinuation()).resume(Unit)
+fun main() {
+    testStartCoroutine()
+    //testCreateCoroutine()
+    Thread.sleep(2000L)
 }
 
-val block = suspend {
-    val a = hello2()
-    a
+val block: suspend (String) -> String = {
+    println("Hello!")
+    delay(1000L)
+    println("World!")
+    "Result"
 }
 
-private fun testCreateCoroutine() {
+private fun testStartCoroutine() {
+    block.startCoroutine("abc", MyContinuation())
+}
+
+/*private fun testCreateCoroutine() {
     val coroutine = block.createCoroutine(MyContinuation())
     coroutine.resume(Unit)
-}
-
-suspend fun hello2() = suspendCoroutine<Int> {
-    thread {
-        Thread.sleep(1000)
-        it.resume(10086)
-    }
-}
-
-/*suspend fun hello3() = withContext(Dispatchers.IO) {
-    delay(2000)
-    println("hello3")
 }*/
 
-class MyContinuation : Continuation<Int> {
+class MyContinuation<T> : Continuation<T> {
     override val context: CoroutineContext = CoroutineName("Co-01")
-    override fun resumeWith(result: Result<Int>) {
+    override fun resumeWith(result: Result<T>) {
         println("MyContinuation resumeWith 结果 = ${result.getOrNull()}")
     }
 }

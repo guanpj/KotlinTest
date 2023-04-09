@@ -1,7 +1,6 @@
 package kthttp
 
 import com.google.gson.Gson
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kthttp.anno.Query
 import kthttp.anno.Get
 import kthttp.anno.Path
