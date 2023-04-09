@@ -22,3 +22,13 @@ private fun testLaunch() {
         println("World!")
     }
 }
+
+private fun testLaunch1() {
+    val scope = CoroutineScope(Job())
+    val block: suspend CoroutineScope.() -> Unit = {
+        println("Hello!")
+        delay(1000L)
+        println("World!")
+    }
+    scope.launch(block = block)
+}
