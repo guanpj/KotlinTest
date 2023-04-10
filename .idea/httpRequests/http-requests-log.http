@@ -1,0 +1,9 @@
+GET https://api.github.com/users/guanpj/repos
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-04T085122.200.json
+
+###
+

@@ -12,7 +12,7 @@ fun main() {
     Thread.sleep(2000L)
 }
 
-val block: suspend (String) -> String = {
+val block: suspend (Int) -> String = {
     println("Hello!")
     delay(1000L)
     println("World!")
@@ -20,7 +20,8 @@ val block: suspend (String) -> String = {
 }
 
 private fun testStartCoroutine() {
-    block.startCoroutine("abc", MyContinuation())
+    val completion = MyContinuation<String>()
+    block.startCoroutine(1, completion)
 }
 
 /*private fun testCreateCoroutine() {
