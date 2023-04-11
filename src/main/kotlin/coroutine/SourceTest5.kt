@@ -1,21 +1,20 @@
 package coroutine
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
 import kotlin.coroutines.*
 import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
 import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 
 suspend fun main() {
-    println(testSuspendCoroutineUninterceptedOrReturn())
+    val result = testSuspendCoroutineUninterceptedOrReturn("abc")
+    println(result)
 }
 
-suspend fun testSuspendCoroutineUninterceptedOrReturn() = suspendCoroutineUninterceptedOrReturn<String> {
+suspend fun testSuspendCoroutineUninterceptedOrReturn(s: String) = suspendCoroutineUninterceptedOrReturn<String> {
+    println(it)
     thread {
         Thread.sleep(1000)
-        it.resume("hhh")
+        it.resume("result:$s")
     }
     return@suspendCoroutineUninterceptedOrReturn COROUTINE_SUSPENDED
 }

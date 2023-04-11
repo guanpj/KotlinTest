@@ -13,14 +13,13 @@ suspend fun main() {
     println(result)
 }
 
-/*
-suspend fun testSuspendCoroutine(string: String): Int = suspendCoroutine {
+suspend fun testSuspendCoroutine1(string: String): Int = suspendCoroutine {
     println("context:${it.context}")
     thread {
-        Thread.sleep(2000)
+        Thread.sleep(1000)
         it.resume(string.length)
     }
-}*/
+}
 
 suspend fun testSuspendCoroutine(string: String): Int {
     println("context:$coroutineContext")
