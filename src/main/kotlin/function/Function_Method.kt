@@ -1,4 +1,4 @@
-package com.me.guanpj.kotlin.test.function
+package function
 
 import kotlin.reflect.*
 

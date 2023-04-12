@@ -1,10 +1,6 @@
 package coroutine
 
-import course.getLengthSuspend
-import kotlinx.coroutines.runBlocking
-import kotlin.concurrent.thread
-import kotlin.coroutines.*
-import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
+import kotlin.coroutines.Continuation
 
 fun main() {
     val func = ::testSuspendCoroutine as (String, Continuation<Int>) -> Any?

@@ -1,13 +1,9 @@
 package coroutine
 
-import kotlinx.coroutines.*
-import kotlin.concurrent.thread
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.EmptyCoroutineContext
-import kotlin.coroutines.CoroutineContext
-import kotlin.reflect.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 fun main() {
     testLaunch()

@@ -2,7 +2,6 @@ package coroutine
 
 import kotlin.coroutines.*
 
-
 fun main() {
     testCreateCoroutine()
     Thread.sleep(2000L)

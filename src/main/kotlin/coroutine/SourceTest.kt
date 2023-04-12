@@ -1,13 +1,6 @@
 package coroutine
 
-import course.getFeedList
-import getUserInfo
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.*
 import kotlin.coroutines.*
-
-import kotlin.coroutines.*
-import kotlin.coroutines.intrinsics.*
 
 suspend fun hello(id: Int, name: String): String {
     return suspendCoroutine { continuation ->
