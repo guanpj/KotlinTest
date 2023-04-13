@@ -1,30 +1,20 @@
-@file:JvmName("SourceTest1Kt")
-
+import coroutine.logX
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-suspend fun getUserInfo(): String {
-    withContext(Dispatchers.IO) {
-        delay(1000L)
-    }
-    return "BoyCoder"
-}
-
-suspend fun getFriendList(user: String): String {
-    withContext(Dispatchers.IO) {
-        delay(1000L)
-    }
-    return "$user friend:Tom, Jack"
-}
-
-suspend fun testCoroutine() {
+fun main() = runBlocking(Dispatchers.Default) {
     val user = getUserInfo()
-    val friendList = getFriendList(user)
-    println(friendList)
+    logX(user)
 }
 
-fun main() = runBlocking {
-    testCoroutine()
+suspend fun getUserInfo(): String {
+    logX("Before IO Context.")
+    withContext(Dispatchers.IO) {
+        logX("In IO Context.")
+        delay(1000L)
+    }
+    logX("After IO Context.")
+    return "BoyCoder"
 }

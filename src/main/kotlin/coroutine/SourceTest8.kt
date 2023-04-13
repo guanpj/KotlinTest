@@ -7,6 +7,7 @@ fun main() {
     testStartCoroutineForSuspend()
     Thread.sleep(2000L)
 }
+
 private suspend fun func(): String {
     println("Hello!")
     delay(1000L)
