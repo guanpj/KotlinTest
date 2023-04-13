@@ -1,20 +1,17 @@
 import coroutine.logX
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
-fun main() = runBlocking(Dispatchers.Default) {
-    val user = getUserInfo()
-    logX(user)
-}
-
-suspend fun getUserInfo(): String {
-    logX("Before IO Context.")
-    withContext(Dispatchers.IO) {
-        logX("In IO Context.")
-        delay(1000L)
+fun main() = runBlocking<Unit> {
+    launch {
+        repeat(3) {
+            println("job1 repeat $it times")
+            yield()
+        }
     }
-    logX("After IO Context.")
-    return "BoyCoder"
+    launch {
+        repeat(3) {
+            println("job2 repeat $it times")
+            yield()
+        }
+    }
 }

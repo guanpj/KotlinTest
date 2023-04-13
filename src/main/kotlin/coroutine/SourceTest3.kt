@@ -13,7 +13,7 @@ suspend fun main() {
     println(result)
 }
 
-suspend fun testSuspendCoroutine1(string: String): Int = suspendCoroutine {
+suspend fun testSuspendCoroutine(string: String): Int = suspendCoroutine {
     println("context:${it.context}")
     thread {
         Thread.sleep(1000)
@@ -21,7 +21,7 @@ suspend fun testSuspendCoroutine1(string: String): Int = suspendCoroutine {
     }
 }
 
-suspend fun testSuspendCoroutine(string: String): Int {
+suspend fun testSuspendWithContent(string: String): Int {
     println("context:$coroutineContext")
     withContext(Dispatchers.IO) {
         delay(1000L)
