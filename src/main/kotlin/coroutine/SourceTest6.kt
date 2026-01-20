@@ -1,11 +1,11 @@
 package coroutine
 
+import kotlin.coroutines.Continuation
 import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 
-suspend fun main() {
-    println(testNotSuspendCoroutineUninterceptedOrReturn())
-}
-
-suspend fun testNotSuspendCoroutineUninterceptedOrReturn() = suspendCoroutineUninterceptedOrReturn<String> {
-    return@suspendCoroutineUninterceptedOrReturn "abc"
+fun main() {
+    val func = ::testSuspendCoroutine as (String, Continuation<Int>) -> Any?
+    val myContinuation = MyContinuation<Int>()
+    func("Java", myContinuation)
+    Thread.sleep(3000)
 }

@@ -6,7 +6,6 @@ import kotlinx.coroutines.runBlocking
 import kotlin.system.measureTimeMillis
 
 
-// 代码段5
 fun main() = runBlocking {
     suspend fun getResult1(): String {
         logX("Start getResult1")

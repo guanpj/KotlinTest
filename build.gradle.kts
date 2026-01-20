@@ -1,6 +1,6 @@
 plugins {
     java
-    kotlin("jvm") version "1.6.0"
+    kotlin("jvm") version "2.0.0"
 }
 
 group = "org.example"
@@ -23,13 +23,9 @@ dependencies {
     implementation("io.reactivex.rxjava3:rxjava:3.0.0")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.0")
-}
-
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.0")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.0.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.8.0")
 }

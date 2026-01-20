@@ -1,3 +1,5 @@
+import kotlinx.coroutines.delay
+
 fun main() {
     val kotlinView = KotlinView()
     kotlinView.setOnClickListener {
@@ -56,5 +58,16 @@ fun main() {
 
     javaView.setOnClickListener {
 
+    }
+}
+
+// 代码段5
+
+// 需要在Java中调用的Kotlin挂起函数
+object SuspendFromJavaExample {
+    // 在Java当中如何调用这个方法？
+    suspend fun getUserInfo(id: Long):String {
+        delay(1000L)
+        return "Kotlin"
     }
 }

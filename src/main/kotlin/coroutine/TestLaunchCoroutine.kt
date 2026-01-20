@@ -1,9 +1,6 @@
 package coroutine
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 fun main() {
     testLaunch()
@@ -11,8 +8,15 @@ fun main() {
 }
 
 private fun testLaunch() {
-    val scope = CoroutineScope(Job())
-    scope.launch {
+    GlobalScope.launch {
+        println("Hello!")
+        delay(1000L)
+        println("World!")
+    }
+}
+
+private suspend fun testLaunch2() {
+    coroutineScope {
         println("Hello!")
         delay(1000L)
         println("World!")

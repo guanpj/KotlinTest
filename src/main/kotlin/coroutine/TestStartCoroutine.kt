@@ -2,13 +2,13 @@ package coroutine
 
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.delay
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.ContinuationInterceptor
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.startCoroutine
+import kotlinx.coroutines.runBlocking
+import kotlin.coroutines.*
 
-fun main() {
-    testStartCoroutine()
+fun main() = runBlocking {
+    testCreateCoroutine()
+    //testStartCoroutine()
+    //testStartCoroutineForSuspend()
     Thread.sleep(2000L)
 }
 
@@ -21,6 +21,22 @@ val block: suspend () -> String = {
 
 private fun testStartCoroutine() {
     block.startCoroutine(MyContinuation())
+}
+
+private suspend fun func(): String {
+    println("Hello!")
+    delay(1000L)
+    println("World!")
+    return "Result"
+}
+
+private fun testStartCoroutineForSuspend() {
+    ::func.startCoroutine(MyContinuation())
+}
+
+private fun testCreateCoroutine() {
+    val coroutine = block.createCoroutine(MyContinuation())
+    coroutine.resume(Unit)
 }
 
 class MyContinuation<T> : Continuation<T> {

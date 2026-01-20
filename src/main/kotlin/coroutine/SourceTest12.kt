@@ -22,6 +22,7 @@ fun main() = runBlocking {
     job.join()      // 等待协程执行完毕
     logX("Process end!")
 }
+
 suspend fun download() {
     // 模拟下载任务
     val time = (Random.nextDouble() * 1000).toLong()
