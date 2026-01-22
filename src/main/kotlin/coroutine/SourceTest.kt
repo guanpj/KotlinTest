@@ -2,7 +2,7 @@ package coroutine
 
 import kotlinx.coroutines.*
 
-fun main() = runBlocking<Unit> {
+fun main() {
     GlobalScope.launch {
         println("Hello")
         delay(5000)

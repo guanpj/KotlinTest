@@ -6,40 +6,34 @@ import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.*
 
 fun main() = runBlocking {
-    testCreateCoroutine()
-    //testStartCoroutine()
+    testStartCoroutine()
     //testStartCoroutineForSuspend()
-    Thread.sleep(2000L)
+    Thread.sleep(20000L)
 }
 
-val block: suspend () -> String = {
+private val block: suspend () -> String = {
     println("Hello!")
-    delay(1000L)
+    delay(5000L)
     println("World!")
     "Result"
 }
 
 private fun testStartCoroutine() {
-    block.startCoroutine(MyContinuation())
+    block.startCoroutine(MyContinuation1())
 }
 
 private suspend fun func(): String {
     println("Hello!")
-    delay(1000L)
+    delay(5000L)
     println("World!")
     return "Result"
 }
 
 private fun testStartCoroutineForSuspend() {
-    ::func.startCoroutine(MyContinuation())
+    ::func.startCoroutine(MyContinuation1())
 }
 
-private fun testCreateCoroutine() {
-    val coroutine = block.createCoroutine(MyContinuation())
-    coroutine.resume(Unit)
-}
-
-class MyContinuation<T> : Continuation<T> {
+class MyContinuation1<T> : Continuation<T> {
     override val context: CoroutineContext = CoroutineName("Co-01") + LogInterceptor()
     override fun resumeWith(result: Result<T>) {
         println("MyContinuation resumeWith 结果 = ${result.getOrNull()}")
